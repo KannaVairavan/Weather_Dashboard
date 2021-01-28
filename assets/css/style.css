@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: linen;
+  margin: 0;
+  padding: 0;
+  font-family: "Times New Roman", Times, serif;
+  color: black;
+
+  font-size: 16px;
+}
+.appTitle {
+  font-size: 3rem;
+  background-color: #38302e;
+  color: white;
+  padding: 0 10px;
+  /* display: inline-block; */
+  border-radius: 25px;
+  box-shadow: 5px 6px var(#6f6866);
+  text-align: center;
+}
+
+/* UV index scale colors */
+.severe {
+  background-color: red;
+  color: white;
+}
+
+.moderate {
+  background-color: yellow;
+  color: brown;
+}
+.favorable {
+  background-color: green;
+  color: white;
+}
