@@ -7,7 +7,11 @@ var windSpeedEl=document.getElementById("wind-speed");
 var uvIndexEl=document.getElementById("uv-index");
 var currentCityEl=document.getElementById("current-city");
 var styleUV=document.querySelector(".style-uv");
-
+var ForecastDiv1=document.getElementById("forecast1");
+var ForecastDiv2=document.getElementById("forecast2");
+var ForecastDiv3=document.getElementById("forecast3");
+var ForecastDiv4=document.getElementById("forecast4");
+var ForecastDiv5=document.getElementById("forecast5");
 console.log(inputCityEl.value.trim());
    
 var key='21fcbf51cee9b6b8bc09bd26d3ff8386'
@@ -37,18 +41,20 @@ function getApi(cityID) {
         console.log("date ", displaydate);
         console.log("temp ", temperatureFahrenheit);
         // icon is rendering from https://openweathermap.org/weather-conditions#How-to-get-icon-URL
-        iconURL="https://openweathermap.org/img/wn/"+iconValue +"@2x.png";
-        // "http://openweathermap.org/img/wn/" + iconValue +"@2x.png"
-        console.log("icon ", iconURL);    
-        var imgEl="<img src= " + iconURL + ">"
-        console.log(imgEl);
-        currentCityEl.textContent=cityNameValue + " (" + displaydate + ")" /*+ <img src="https://openweathermap.org/img/wn/" + iconValue + "@2x.png">;*/
+        var iconSpace=document.createElement("img");
+        iconSpace.setAttribute("src", 'https://openweathermap.org/img/wn/' + iconValue + '@2x.png');
+        
+        
+        console.log(iconSpace);
+        currentCityEl.innerHTML=cityNameValue + " (" + displaydate + ")" 
+        currentCityEl.append(iconSpace) ;
         console.log(cityNameValue);
         TemperatureEl.innerText=temperatureFahrenheit.toFixed(2);
         humidityEl.innerText=data.main.humidity;
         windSpeedEl.innerText=windSpeedValue.toFixed(1) + " MPH";
         console.log(data.coord.lat)
         uvindex(data.coord.lat, data.coord.lon);
+        forecast(cityID);
        
       });
   }
@@ -90,9 +96,9 @@ function getApi(cityID) {
   }
 
   function forecast(cityID){
-    var forecasturl='api.openweathermap.org/data/2.5/forecast?q=' + cityID + '&appid='+ key
+    var forecasturl='http://api.openweathermap.org/data/2.5/forecast?q=' + cityID + '&appid='+ key
     
-    fetch(uvindexurl)
+    fetch(forecasturl)
     .then(function (response) {
       return response.json();
      })
@@ -101,7 +107,18 @@ function getApi(cityID) {
       console.log("forecast ", data)
 
       // loop through 5 day forecast
-
+      for(var i=1; i <= 5; i++ ){
+        console.log(data.list[i].dt);
+        var forcastdtEl=document.createElement("p");
+        var forcastDtValue=data.list[i].dt;
+        var forcastdtDate= new Date(forcastDtValue * 1000).toLocaleDateString();
+        console.log(forcastdtDate);
+        forcastdtEl.textContent=forcastdtDate;
+        var fcDiv="ForecastDiv" + i;
+        console.log(fcDiv);
+        ("ForecastDiv" + i).append(forcastdtEl);
+         
+      }
 
     });
   }
