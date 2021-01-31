@@ -27,13 +27,14 @@ h2 {
   font-size: 2rem;
 }
 p {
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 .current {
   font-weight: bold;
   font-size: 1.2rem;
 }
+
 /* UV index scale colors */
 .severe {
   background-color: red;
@@ -53,4 +54,9 @@ p {
   color: white;
   padding: 10px;
   border: 10px;
+}
+
+/* style forecast */
+.style-fc {
+  font-size: 0.75rem;
 }

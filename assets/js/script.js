@@ -7,11 +7,8 @@ var windSpeedEl=document.getElementById("wind-speed");
 var uvIndexEl=document.getElementById("uv-index");
 var currentCityEl=document.getElementById("current-city");
 var styleUV=document.querySelector(".style-uv");
-var ForecastDiv1=document.getElementById("forecast1");
-var ForecastDiv2=document.getElementById("forecast2");
-var ForecastDiv3=document.getElementById("forecast3");
-var ForecastDiv4=document.getElementById("forecast4");
-var ForecastDiv5=document.getElementById("forecast5");
+
+
 console.log(inputCityEl.value.trim());
    
 var key='21fcbf51cee9b6b8bc09bd26d3ff8386'
@@ -49,8 +46,8 @@ function getApi(cityID) {
         currentCityEl.innerHTML=cityNameValue + " (" + displaydate + ")" 
         currentCityEl.append(iconSpace) ;
         console.log(cityNameValue);
-        TemperatureEl.innerText=temperatureFahrenheit.toFixed(2);
-        humidityEl.innerText=data.main.humidity;
+        TemperatureEl.innerText=temperatureFahrenheit.toFixed(2) + " °" + "F";
+        humidityEl.innerText=data.main.humidity + "%";
         windSpeedEl.innerText=windSpeedValue.toFixed(1) + " MPH";
         console.log(data.coord.lat)
         uvindex(data.coord.lat, data.coord.lon);
@@ -107,18 +104,46 @@ function getApi(cityID) {
       console.log("forecast ", data)
 
       // loop through 5 day forecast
-      for(var i=1; i <= 5; i++ ){
+      for(var i=0; i <= 5; i++ ){
         console.log(data.list[i].dt);
         var forcastdtEl=document.createElement("p");
-        var forcastDtValue=data.list[i].dt;
+        console.log("data i", i);
+        var iIndex= ((i+1) * 8)-1
+        console.log("data iIndex", iIndex);
+        var forcastDtValue=data.list[iIndex].dt;
         var forcastdtDate= new Date(forcastDtValue * 1000).toLocaleDateString();
         console.log(forcastdtDate);
         forcastdtEl.textContent=forcastdtDate;
-        var fcDiv="ForecastDiv" + i;
-        console.log(fcDiv);
-        ("ForecastDiv" + i).append(forcastdtEl);
-         
+        var fcid="forecast" + i
+        console.log(fcid);
+        clearBox(fcid);
+        var ForecastDiv=document.getElementById(fcid);
+        // ForecastDiv.textContent="";
+        ForecastDiv.appendChild(forcastdtEl);
+        // append icon
+        var fcIconValue=data.list[iIndex].weather[0].icon;
+        var fcIcon=document.createElement("img");
+        fcIcon.setAttribute("src", 'https://openweathermap.org/img/wn/' + fcIconValue + '@2x.png'); 
+        ForecastDiv.appendChild(fcIcon);
+        // append temp
+        var forcastTempEl=document.createElement("p");
+        var fcTemperatureFahrenheit = (data.list[iIndex].main.temp - 273.15) * 1.8 +32;
+        forcastTempEl.textContent="Temp: " + fcTemperatureFahrenheit.toFixed(2) + " °" + "F" ;
+        ForecastDiv.appendChild(forcastTempEl);
+        // append Humidity
+        var forcastHumidityEl=document.createElement("p");
+        var fcTemperatureFahrenheit = (data.list[iIndex].main.temp - 273.15) * 1.8 +32;
+        forcastHumidityEl.textContent="Humidity: " +  data.list[iIndex].main.humidity + "%";
+        ForecastDiv.appendChild(forcastHumidityEl);
       }
 
     });
   }
+
+  function clearBox(elementID) { 
+    var div = document.getElementById(elementID); 
+      
+    while(div.firstChild) { 
+        div.removeChild(div.firstChild); 
+    } 
+} 
