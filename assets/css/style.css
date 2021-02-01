@@ -60,3 +60,7 @@ p {
 .style-fc {
   font-size: 0.75rem;
 }
+#error-city {
+  color: red;
+  font-weight: bolder;
+}

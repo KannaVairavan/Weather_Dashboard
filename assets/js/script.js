@@ -7,9 +7,14 @@ var windSpeedEl=document.getElementById("wind-speed");
 var uvIndexEl=document.getElementById("uv-index");
 var currentCityEl=document.getElementById("current-city");
 var styleUV=document.querySelector(".style-uv");
-
-
+var errorCity=document.getElementById("error-city");
+errorCity.style.display="none";
 console.log(inputCityEl.value.trim());
+
+function cleardata(){
+  errorCity.style.display="none";
+
+}
    
 var key='21fcbf51cee9b6b8bc09bd26d3ff8386'
 function getApi(cityID) {
@@ -19,13 +24,25 @@ function getApi(cityID) {
     fetch(requestUrl)
       .then(function (response) {
         return response.json();
+        
+
+        
        })
       .then(function (data) {
-        
-        // check status
-
         // console.log to examine the data
-        console.log(data);
+        console.log(data.status);
+       
+        // check status
+        if(data.cod==="404"){
+          // clear data
+          // request correct city name
+          errorCity.style.display="block";
+          errorCity.innerHTML="Enter correct city name"
+          return;
+        }
+         
+        
+
         var cityNameValue=data.name;
         var tempValue=data.main.temp;
         var temperatureFahrenheit = (tempValue - 273.15) * 1.8 +32;
@@ -57,18 +74,7 @@ function getApi(cityID) {
   }
   
 
-  searchBtnEl.addEventListener("click", function(){
-    console.log(inputCityEl.value.trim())
-    if (inputCityEl.value.trim() !==""){
-      
-      // render weather info
-      getApi(inputCityEl.value.trim());
-
-    } else {
-      alert ("Enter city name")
-    }
-    
-  })
+  
 
   function uvindex(lat, lon){
     var uvindexurl='http://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + '&appid=' + key
@@ -147,3 +153,18 @@ function getApi(cityID) {
         div.removeChild(div.firstChild); 
     } 
 } 
+
+searchBtnEl.addEventListener("click", function(){
+  cleardata();
+  console.log(inputCityEl.value.trim())
+  if (inputCityEl.value.trim() !==""){
+    
+    // render weather info
+    getApi(inputCityEl.value.trim());
+
+  } else {
+    errorCity.style.display="block";
+    errorCity.innerHTML="Enter city name"
+  }
+  
+})
