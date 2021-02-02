@@ -25,7 +25,7 @@ function cleardata(){
 var key='21fcbf51cee9b6b8bc09bd26d3ff8386'
 function getApi(cityID) {
     
-    var requestUrl =  'https://api.openweathermap.org/data/2.5/weather?q=' + cityID + '&appid='+ key
+    var requestUrl =  'https://api.openweathermap.org/data/2.5/weather?q=' + cityID + '&units=imperial&appid='+ key
     console.log(requestUrl);
     fetch(requestUrl)
       .then(function (response) {
@@ -38,7 +38,7 @@ function getApi(cityID) {
       .then(function (data) {
         // console.log to examine the data
         console.log(data.status);
-       
+        console.log("current data ", data)
         // check status
         if(data.cod==="404"){
           // clear data
@@ -52,9 +52,9 @@ function getApi(cityID) {
 
         var cityNameValue=data.name;
         var tempValue=data.main.temp;
-        var temperatureFahrenheit = (tempValue - 273.15) * 1.8 +32;
+        var temperatureFahrenheit = (tempValue) /* - 273.15) * 1.8 +32;*/
         
-        var windSpeedValue=(data.wind.speed) * 2.237;
+        var windSpeedValue=(data.wind.speed) /* 2.237; */
         var iconValue=data.weather[0].icon;
         console.log("icon ", iconValue); 
         var dtValue=data.dt;
@@ -72,7 +72,7 @@ function getApi(cityID) {
         console.log(cityNameValue);
         TemperatureEl.innerText=temperatureFahrenheit.toFixed(2) + " °" + "F";
         humidityEl.innerText=data.main.humidity + "%";
-        windSpeedEl.innerText=windSpeedValue.toFixed(1) + " MPH";
+        windSpeedEl.innerText=windSpeedValue.toFixed(2) + " MPH";
         console.log(data.coord.lat)
         uvindex(data.coord.lat, data.coord.lon);
         forecast(data.coord.lat, data.coord.lon);
