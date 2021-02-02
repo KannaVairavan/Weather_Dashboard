@@ -209,7 +209,7 @@ function SaveCity(cityID){
 
 var cityArray=[];
 
-function renderCity(){
+function renderCity(getlastcity){
   if (localStorage.cityName){
     cityListEl.innerHTML="";
     var cityArray = JSON.parse(localStorage.getItem("cityName"));
@@ -225,8 +225,17 @@ function renderCity(){
         cityListEl.appendChild(liCityEl);
         
     }
+    if(getlastcity===true) {
+      lastCity=(cityArray.length)-1
+      getApi(cityArray[lastCity].city);
+    }
+    
   }
+
+  // render weather info
+
 }
+
 searchBtnEl.addEventListener("click", function(){
   cleardata();
   errorCity.style.display="none";
@@ -262,5 +271,8 @@ cityListEl.addEventListener("click",function(event){
 clearList.addEventListener("click", function(){
   var cityArray=[];
   localStorage.setItem("cityName", JSON.stringify(cityArray));
-
+  
 })
+window.addEventListener("load",renderCity(true));
+
+
