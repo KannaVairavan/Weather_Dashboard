@@ -2,7 +2,7 @@
 
 ## Summary
 
-This app will run in the browser and feature dynamically updated HTML, CSS, Bootstrap and Javascript. This app is using the third party API from [OpenWeather API](https://openweathermap.org/api) to retrieve weather outlook for multiple cities.
+HTML, Bootstrap, CSS and Javascript documents create a weather application. This app is using the third party API from [OpenWeather API](https://openweathermap.org/api) to retrieve weather outlook for multiple cities.
 
 ### Project features:
 
@@ -27,7 +27,7 @@ This app will run in the browser and feature dynamically updated HTML, CSS, Boot
 - 3 API calls
 - Event listener (onclick)
 - Local Storage
-- functions, for each loop and if condition
+- functions, for loop and if condition
 
 ## Project Demo
 
@@ -57,11 +57,15 @@ When weather dash board app is rendered it will present last search city forecas
 
 When city name is not found in API it will present error text.
 
-![Error Forecast](./assets/image/WD_Error.PNG)
+![Error Forecast](./assets/image/WD_error.PNG)
 
 ## Link
 
+https://kannavairavan.github.io/Weather_Dashboard/
+
 ## Repository
+
+https://github.com/KannaVairavan/Weather_Dashboard.git
 
 ## Technologies
 
