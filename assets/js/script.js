@@ -11,6 +11,7 @@ var styleUV=document.querySelector(".style-uv");
 var cityListEl=document.querySelector(".cityList");
 var errorCity=document.getElementById("error-city");
 var clearList=document.getElementById("clear-list");
+
 errorCity.style.display="none";
 console.log(inputCityEl.value.trim());
 var cityArray=[];
@@ -18,21 +19,33 @@ var cityArray=[];
 renderCity();
 
 function cleardata(){
+  uvIndexEl.innerHTML="";
+  uvIndexEl.classList.remove("favorable");
+  uvIndexEl.classList.remove("moderate");
+  uvIndexEl.classList.remove("severe");
+  currentCityEl.innerHTML="";
+  TemperatureEl.innerText="";
+  humidityEl.innerText="";
+  windSpeedEl.innerText="";
+  for (var i=1; i <=5; i++){
+    var fcid="forecast" + i
+    
+    clearBox(fcid);
+  }
   
-
+  
 }
    
 var key='21fcbf51cee9b6b8bc09bd26d3ff8386'
 function getApi(cityID) {
-    
+  // clear data
+    cleardata()
+  
     var requestUrl =  'https://api.openweathermap.org/data/2.5/weather?q=' + cityID + '&units=imperial&appid='+ key
     console.log(requestUrl);
     fetch(requestUrl)
       .then(function (response) {
         return response.json();
-        
-
-        
        })
        
       .then(function (data) {
@@ -65,7 +78,6 @@ function getApi(cityID) {
         var iconSpace=document.createElement("img");
         iconSpace.setAttribute("src", 'https://openweathermap.org/img/wn/' + iconValue + '@2x.png');
         
-        
         console.log(iconSpace);
         currentCityEl.innerHTML=cityNameValue + " (" + displaydate + ")" 
         currentCityEl.append(iconSpace) ;
@@ -77,7 +89,8 @@ function getApi(cityID) {
         uvindex(data.coord.lat, data.coord.lon);
         forecast(data.coord.lat, data.coord.lon);
         SaveCity(cityID);
-       
+       // render city list
+        renderCity();
       });
   }
   
@@ -95,7 +108,7 @@ function getApi(cityID) {
       // apply class based on uv index
       if(data.value >=0 && data.value < 3){
         styleUV.classList.add ("favorable");
-      }else if(data.value >= 3 && data.value < 6 ){
+      }else if(data.value >= 3 && data.value < 8 ){
         styleUV.classList.add ("moderate");
       }else{
         styleUV.classList.add ("severe");
@@ -170,24 +183,35 @@ function getApi(cityID) {
 } 
 
 function SaveCity(cityID){
+          var found=false;
           var cityArray=[];
           var searchCity = {
               city : cityID,
                       };
-          var cityArray = JSON.parse(localStorage.getItem("cityName") || "[]");
-          // var found = cityArray.some(ele => ele.city === cityID);
-          
-          // console.log("found ",found)            
-    
-          cityArray.push(searchCity);
-          localStorage.setItem("cityName", JSON.stringify(cityArray));
-    
+          var cityArray = JSON.parse(localStorage.getItem("cityName"));
+          console.log("length ", cityArray.length);
+
+          console.log(cityArray);
+          // check for duplicate city name
+          for(var i=0; i < cityArray.length; i++){
+            
+            if(cityArray[i].city===cityID){
+              console.log(cityArray[i].city);
+                found=true;
+            }
+          }         
+          console.log("found", found);
+          if(!found){
+            cityArray.push(searchCity);
+            localStorage.setItem("cityName", JSON.stringify(cityArray));
+          }  
 }
 
 var cityArray=[];
 
 function renderCity(){
   if (localStorage.cityName){
+    cityListEl.innerHTML="";
     var cityArray = JSON.parse(localStorage.getItem("cityName"));
     console.log(cityArray.length);
     for(var i=0; i < cityArray.length; i++){
@@ -206,6 +230,7 @@ function renderCity(){
 searchBtnEl.addEventListener("click", function(){
   cleardata();
   errorCity.style.display="none";
+ 
   console.log(inputCityEl.value.trim())
   if (inputCityEl.value.trim() !==""){
     
