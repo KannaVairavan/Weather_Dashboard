@@ -190,7 +190,7 @@ function SaveCity(cityID){
           var searchCity = {
               city : cityID,
                       };
-          var cityArray = JSON.parse(localStorage.getItem("cityName"));
+          var cityArray = JSON.parse(localStorage.getItem("cityName") || "[]");
           console.log("length ", cityArray.length);
 
           console.log(cityArray);
