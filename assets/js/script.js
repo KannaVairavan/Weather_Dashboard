@@ -191,7 +191,7 @@ function SaveCity(cityID){
               city : cityID,
                       };
           var cityArray = JSON.parse(localStorage.getItem("cityName") || "[]");
-          console.log("length ", cityArray.length);
+          
 
           console.log(cityArray);
           // check for duplicate city name
