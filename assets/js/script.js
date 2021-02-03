@@ -100,7 +100,7 @@ function getApi(cityID) {
   
 
   function uvindex(lat, lon){
-    var uvindexurl='http://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + '&appid=' + key
+    var uvindexurl='https://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + '&appid=' + key
     fetch(uvindexurl)
     .then(function (response) {
       return response.json();
