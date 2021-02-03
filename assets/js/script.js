@@ -209,7 +209,7 @@ function SaveCity(cityID){
 
 var cityArray=[];
 
-function renderCity(getlastcity){
+function renderCity(){
   if (localStorage.cityName){
     cityListEl.innerHTML="";
     var cityArray = JSON.parse(localStorage.getItem("cityName"));
@@ -225,17 +225,27 @@ function renderCity(getlastcity){
         cityListEl.appendChild(liCityEl);
         
     }
-    if(getlastcity===true) {
-      lastCity=(cityArray.length)-1
-      getApi(cityArray[lastCity].city);
-    }
+    
     
   }
 
   // render weather info
 
 }
+function renderlastCity(){
+  if (localStorage.cityName){
+    
+    var cityArray = JSON.parse(localStorage.getItem("cityName"));
+    
+    var lastCity=(cityArray.length)-1
+    console.log("lastcity", lastCity);
+    getApi(cityArray[lastCity].city);
+  
+  }
 
+  // render weather info
+
+}
 searchBtnEl.addEventListener("click", function(){
   cleardata();
   errorCity.style.display="none";
@@ -273,6 +283,6 @@ clearList.addEventListener("click", function(){
   localStorage.setItem("cityName", JSON.stringify(cityArray));
   
 })
-window.addEventListener("load",renderCity(true));
+window.addEventListener("load",renderlastCity());
 
 
